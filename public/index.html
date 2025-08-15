@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>XOXO GAME</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <!--  <h1>XOXO : YOU AND WHOO??</h1>  -->
+
+    <section id="mode-selection" >
+        <div class="card">
+
+            <h2 class="card-title">Kiminle Oynamak İstersin ? </h2>
+
+            <div class="mode-option" onclick="selectMode('ai')">
+                <div class="mode-inner">
+                    <img src="avatar/choose-computer.png" alt="Bilgisayar ile Oyna" />
+                    <span class="hover-text">Computer</span>
+                </div>
+            </div>
+
+            <div class="mode-option" onclick="selectMode('multiplayer')">
+                <div class="mode-inner">
+                    <img src="avatar/choose-person.png" alt="Arkadaşla Oyna" />
+                    <span class="hover-text">Multiplayer</span>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+        <section id="avatar-selection" style="display: none;">
+        <div class="card">
+            <div  class="avatar-selectionn" >
+                <button id="prev-btn" class="nav-button">
+                    <img src="avatar/buton-ok.png" alt="Geri">
+                </button>
+
+                <div class="avatar-container">
+                    <img id="current-avatar"  class="avatar selected" />
+                </div>
+
+                <button id="next-btn" class="nav-button">
+                    <img src="avatar/buton-ok-sag.png" alt="Ilerı">
+                </button>
+            </div>
+        </div>
+
+    </section>
+
+
+    <section id="game-board" style="display: none;"> <!-- Oyun ekranı --> </section>
+
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script type="module" src="js/main.js"></script>
+</body>
+
+</html>

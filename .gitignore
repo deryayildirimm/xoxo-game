@@ -1,0 +1,11 @@
+/.env
+/node_modules
+
+public/js/modes/multiplayer.js
+public/js/modes/ai.js
+public/js/main.js
+public/script.js
+server/index.js
+
+
+
