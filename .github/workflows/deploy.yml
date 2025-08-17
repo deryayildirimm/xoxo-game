@@ -1,10 +1,64 @@
-name: CD only • Trigger Render
+name: CD • Pull latest → Smoke test → Render deploy
+
 on:
   push:
-    branches: [ main ]
-  workflow_dispatch:
+    branches: [ main ]          # main'e push olunca çalışır
+  workflow_dispatch:             # istersen elle de tetikleyebilirsin
+
+permissions:
+  contents: read
+
 jobs:
-  cd:
+  predeploy_and_deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
+    concurrency:
+      group: production-cd
+      cancel-in-progress: true
+
+    env:
+      IMAGE: ghcr.io/deryayildirimm/gaming-secure:latest
+      APP_PORT: 8083            # Uygulamanın container içinde dinlediği port
+      HEALTH_PATH: /health      # Eğer yoksa '/' kullan
+
     steps:
-      - run: curl -fsSL -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
+      - name: Log in to GHCR (read-only)
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.CR_PAT }}   # read:packages yeter
+
+      - name: Pull image to test
+        run: docker pull "$IMAGE"
+
+      - name: Run container (detached)
+        run: |
+          docker run -d --rm \
+            -e PORT=${APP_PORT} \
+            -p 127.0.0.1:${APP_PORT}:${APP_PORT} \
+            --name app "$IMAGE"
+
+      - name: Smoke test (wait for health)
+        run: |
+          set -e
+          for i in {1..30}; do
+            if curl -fsS "http://127.0.0.1:${APP_PORT}${HEALTH_PATH}" || \
+               curl -fsS "http://127.0.0.1:${APP_PORT}/"; then
+              echo "App is healthy ✅"
+              exit 0
+            fi
+            echo "Waiting app to be ready... ($i/30)"
+            sleep 2
+          done
+          echo "Health check FAILED ❌"
+          docker logs app || true
+          exit 1
+
+      - name: Stop container
+        if: always()
+        run: docker stop app || true
+
+      - name: Trigger Render Deploy (only if healthy)
+        if: ${{ success() }}
+        run: curl -fsSL -X POST "${{ secrets.RENDER_DEPLOY_HOOK_URL }}"
