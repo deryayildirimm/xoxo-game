@@ -1,3 +1,7 @@
+# Bu dosya: "main" branch'e push olduğunda veya elle tetiklediğinde (workflow_dispatch)
+# GHCR'dan latest imajı PULL eder, geçici bir container'la kısa bir SMOKE TEST yapar,
+# test başarılıysa Render Deploy Hook'unu çağırarak PROD deploy'u başlatır.
+
 name: CD • Pull latest → Smoke test → Render deploy
 
 on:
