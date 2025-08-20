@@ -72,3 +72,9 @@ CI/CD is configured in `.github/workflows/deploy.yml`.
 - Only part of the source code is public.
 - "Play Against Computer" mode is planned but not functional yet.
 - Multiplayer mode is fully working and live.
+
+## Related Medium Articles
+
+- [How to Deploy without pushing all code ? ](https://medium.com/@deryayildirimm/koddan-canlıya-docker-render-ile-basit-deployment-bca1e26a3ad2)
+
+- [Insert a Smoke Test with Github Action ](https://medium.com/@deryayildirimm/deploying-to-render-insert-a-smoke-test-step-with-github-actions-ffbd49a104dd)
