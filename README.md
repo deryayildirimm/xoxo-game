@@ -1,6 +1,6 @@
 #  XOXO Game – Multiplayer & Computer Mode 
 
-![Gameplay](public\screenshots\xoxo-screenshots.jpg)
+![Gameplay](public/screenshots/xoxo-screenshots.jpg)
 
 A modern, web-based Tic-Tac-Toe (XOXO) game. Players can choose avatars and play against each other in real-time. A "Play Against Computer" mode is designed and will be implemented soon.
 
